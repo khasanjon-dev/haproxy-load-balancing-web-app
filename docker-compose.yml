@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+  web_app1:
+    ports:
+      - ${APP_PORT:-0}:3000
+    build: .
+    restart: always
+    command: [ "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "3000" ]
+    expose:
+      - "3000"
+  web_app2:
+    ports:
+      - ${APP_PORT:-0}:3000
+    build: .
+    restart: always
+    command: [ "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "3000" ]
+    expose:
+      - "3000"
+  web_app3:
+    ports:
+      - ${APP_PORT:-0}:3000
+    build: .
+    restart: always
+    command: [ "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "3000" ]
+    expose:
+      - "3000"
+  haproxy:
+    build: haproxy/.
+    container_name: haproxy
+    ports:
+      - "8404:8404"
+      - "86:85"
+    depends_on:
+      - web_ser
+    links:
+      - web_ser
